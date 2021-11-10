@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple HTML form</title>
+  </head>
+  <body>
+    <header>
+      <h1>Simple HTML form</h1>
+    </header>
+
+    <main>
+      <form>
+        <section id="fields-container" class="fields-container">
+          <span>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" />
+          </span>
+          <span>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" />
+          </span>
+        </section>
+
+        <section id="buttons-container" class="buttons-container">
+          <button id="add-new-field">Add new field</button>
+          <button id="submit">Submit</button>
+        </section>
+      </form>
+    </main>
+
+    <script>
+      const form = document.querySelector("form");
+      const submitButton = document.querySelector("#submit");
+      const fieldsContainer = document.querySelector("#fields-container");
+      const addNewFieldButton = document.querySelector("#add-new-field");
+
+      function resolveString(string) {
+        return string.replace(/\s/g, "-").toLowerCase();
+      }
+
+      function addField(event) {
+        event.preventDefault();
+        const fieldName = prompt("Digite o nome do campo");
+
+        if (!fieldName) return;
+
+        const newField = document.createElement("span");
+        newField.innerHTML = `
+          <label for="${resolveString(fieldName)}">${fieldName}</label>
+          <input type="text" name="${resolveString(
+            fieldName
+          )}" id="${resolveString(fieldName)}" />
+        `;
+        fieldsContainer.appendChild(newField);
+      }
+
+      async function submitForm(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+
+        // use this to send your form
+        //
+        // const response = await fetch("/", {
+        //   method: "POST",
+        //   body: formData,
+        // });
+        console.log("Form submitted!");
+      }
+      addNewFieldButton.addEventListener("click", addField);
+      submitButton.addEventListener("click", submitForm);
+    </script>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+      }
+
+      .fields-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      input {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+
+      label {
+        color: #353535;
+      }
+
+      .buttons-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        border-top: 1px solid #ccc;
+        padding-top: 1rem;
+      }
+
+      button {
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        color: #353535;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: 450ms;
+      }
+
+      button:hover {
+        background-color: #353535;
+        border: 1px solid #000000;
+        color: #f5f5f5;
+        transition: 200ms;
+      }
+    </style>
+  </body>
+</html>
